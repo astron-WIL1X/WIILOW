@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis PSAT PAI SMK N 1 Kota Bekasi</title>
+    <style>
+        :root { --primary: #2e7d32; --bg: #f0f2f5; --correct: #4caf50; --wrong: #f44336; --selected: #1976d2; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 20px; color: #333; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: relative; }
+        h1 { text-align: center; color: var(--primary); font-size: 1.4em; margin-bottom: 5px; }
+        .meta-info { text-align: center; color: #666; margin-bottom: 20px; font-size: 0.85em; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .question-card { margin-bottom: 20px; padding: 15px; border: 1px solid #e0e0e0; border-radius: 10px; background: #fafafa; }
+        .q-text { font-weight: 600; margin-bottom: 12px; display: block; line-height: 1.4; }
+        .options { display: grid; gap: 8px; }
+        .option-btn { padding: 12px; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; background: white; text-align: left; font-size: 0.95em; transition: 0.2s; }
+        
+        .option-btn.selected { background-color: var(--selected) !important; color: white; border-color: var(--selected); }
+        .option-btn.correct { background-color: var(--correct) !important; color: white; border-color: var(--correct); }
+        .option-btn.wrong { background-color: var(--wrong) !important; color: white; border-color: var(--wrong); }
+        .option-btn.disabled { pointer-events: none; }
+
+        #submit-area { text-align: center; margin-top: 30px; margin-bottom: 30px; }
+        #btn-finish { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 30px; font-size: 1.1em; cursor: pointer; width: 100%; font-weight: bold; }
+        
+        #result-modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 20px; box-shadow: 0 0 100px rgba(0,0,0,0.5); z-index: 100; text-align: center; width: 80%; max-width: 400px; }
+        .close-x { position: absolute; top: 15px; right: 20px; font-size: 24px; font-weight: bold; cursor: pointer; color: #999; }
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 99; }
+        
+        #btn-retry { margin-top: 20px; background: #555; color: white; border: none; padding: 12px 20px; border-radius: 10px; cursor: pointer; width: 100%; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Kuis PSAT PAI</h1>
+    <div class="meta-info">SMK N 1 Kota Bekasi | TA 2025/2026</div>
+
+    <div id="quiz-form">
+        <div class="question-card"><span class="q-text">1. Dalam QS. An-Nur/24:2, hukum bacaan pada kata "الزَّانِيَةُ" adalah...</span>
+            <div class="options" data-correct="B">
+                <button class="option-btn" data-val="A">A. Alif Lam Qomariyah</button>
+                <button class="option-btn" data-val="B">B. Alif Lam Syamsiyah</button>
+                <button class="option-btn" data-val="C">C. Ikhfa Haqiqi</button>
+                <button class="option-btn" data-val="D">D. Idzhar Halqi</button>
+            </div>
+        </div>
+
+        <div class="question-card"><span class="q-text">2. Perhatikan potongan ayat QS. An-Nur/24:2. Hukum bacaan pada kata "مِائَةَ جَلْدَةٍ" adalah...</span>
+            <div class="options" data-correct="C">
+                <button class="option-btn" data-val="A">A. Iqlab</button>
+                <button class="option-btn" data-val="B">B. Idgham Bighunnah</button>
+                <button class="option-btn" data-val="C">C. Ikhfa Haqiqi</button>
+                <button class="option-btn" data-val="D">D. Mad Thabi'i</button>
+            </div>
+        </div>
+
+        <div class="question-card"><span class="q-text">3. Lanjutan dari potongan ayat "فَاجْلِدُوا كُلَّ وَاحِدٍ مِنْهُمَا" yang benar adalah...</span>
+            <div class="options" data-correct="A">
+                <button class="option-btn" data-val="A">A. مِائَةَ جَلْدَةٍ</button>
+                <button class="option-btn" data-val="B">B. وَلَا تَأْخُذْكُمْ</button>
+                <button class="option-btn" data-val="C">C. فِي دِينِ اللَّهِ</button>
+                <button class="option-btn" data-val="D">D. إِنْ كُنْتُمْ تُؤْمِنُونَ</button>
+            </div>
+        </div>
+
+        <div class="question-card"><span class="q-text">4. Arti kata "فَاحِشَةً" dalam QS. Al-Isra/17:32 adalah...</span>
+            <div class="options" data-correct="D">
+                <button class="option-btn" data-val="A">A. Jalan yang buruk</button>
+                <button class="option-btn" data-val="B">B. Janganlah mendekat</button>
+                <button class="option-btn" data-val="C">C. Sesungguhnya zina itu</button>
+                <button class="option-btn" data-val="D">D. Perbuatan keji</button>
+            </div>
+        </div>
+
+        <div class="question-card"><span class="q-text">5. Hikmah dibalik larangan berkhalwat (berdua-duaan) menurut hadist adalah...</span>
+            <div class="options" data-correct="B">
+                <button class="option-btn" data-val="A">A. Agar tidak malas belajar</button>
+                <button class="option-btn" data-val="B">B. Mencegah pintu masuk setan menuju zina</button>
+                <button class="option-btn" data-val="C">C. Menghindari amarah orang tua</button>
+                <button class="option-btn" data-val="D">D. Supaya cepat menikah</button>
+            </div>
+        </div>
+
+        <div class="question-card"><span class="q-text">6. Sikap berani membela kebenaran dengan akal sehat disebut...</span>
+            <div class="options" data-correct="B">
+                <button class="option-btn" data-val="A">A. Ghadab</button>
+                <button class="option-btn" data-val="B">B. Syaja'ah</button>
+                <button class="option-btn" data-val="C">C. Mujahadah</button>
+                <button class="option-btn" data-val="D">D. Jihad</button>
+            </div>
+        </div>
+
+        <div class="question-card"><span class="q-text">7. Marah yang berlebihan atau sikap berang dalam Islam dikenal dengan istilah...</span>
+            <div class="options" data-correct="A">
+                <button class="option-btn" data-val="A">A. Ghadab</button>
+                <button class="option-btn" data-val="B">B. Syaja'ah</button>
+                <button class="option-btn" data-val="C">C. Mujahadah</button>
+                <button class="option-btn" data-val="D">D. Takabur</button>
+            </div>
+        </div>
+
+        <div class="question-card"><span class="q-text">8. Mujahadah An-Nafs secara bahasa berarti...</span>
+            <div class="options" data-correct="C">
+                <button class="option-btn" data-val="A">A. Berani mati</button>
+                <button class="option-btn" data-val="B">B. Berperang fisik</button>
+                <button class="option-btn" data-val="C">C. Kontrol diri / Perjuangan melawan hawa nafsu</button>
+                <button class="option-btn" data-val="D">D. Bersabar saja</button>
+            </div>
+        </div>
+
+        <div class="question-card"><span class="q-text">9. Salah satu cara menghindari sikap Ghadab ketika sedang berdiri adalah...</span>
+            <div class="options" data-correct="A">
+                <button class="option-btn" data-val="A">A. Segera duduk</button>
+                <button class="option-btn" data-val="B">B. Berteriak keras</button>
+                <button class="option-btn" data-val="C">C. Berlari kencang</button>
+                <button class="option-btn" data-val="D">D. Mencari lawan bicara</button>
+            </div>
+        </div>
+
+        <div class="question-card"><span class="q-text">10. Contoh sikap Syaja'ah dalam kehidupan sehari-hari adalah...</span>
+            <div class="options" data-correct="C">
+                <button class="option-btn" data-val="A">A. Berkelahi karena diejek</button>
+                <button class="option-btn" data-val="B">B. Menyimpan rahasia teman yang salah</button>
+                <button class="option-btn" data-val="C">C. Berani berkata jujur meski pahit</button>
+                <button class="option-btn" data-val="D">D. Melawan orang tua</button>
+            </div>
+        </div>
+
+        <div class="question-card"><span class="q-text">11. Al-Khulliyat Al-Khamsah berarti lima prinsip dasar untuk menjaga...</span>
+            <div class="options" data-correct="B">
+                <button class="option-btn" data-val="A">A. Kekuasaan</button>
+                <button class="option-btn" data-val="B">B. Kemaslahatan manusia</button>
+                <button class="option-btn" data-val="C">C. Kekayaan dunia</button>
+                <button class="option-btn" data-val="D">D. Nama baik keluarga</button>
+            </div>
+        </div>
+
+        <div class="question-card"><span class="q-text">12. Upaya menjaga kelestarian akal (Hifzhu Al-Aql) dilakukan dengan cara...</span>
+            <div class="options" data-correct="D">
+                <button class="option-btn" data-val="A">A. Berolahraga</button>
+                <button class="option-btn" data-val="B">B. Menabung harta</button>
+                <button class="option-btn" data-val="C">C. Berhaji</button>
+                <button class="option-btn" data-val="D">D. Menuntut ilmu dan menjauhi narkoba</button>
+            </div>
+        </div>
+
+        <div class="question-card"><span class="q-text">13. Larangan membunuh tanpa alasan yang sah merupakan bentuk dari...</span>
+            <div class="options" data-correct="A">
+                <button class="option-btn" data-val="A">A. Hifzhu Al-Nafs (Menjaga Jiwa)</button>
+                <button class="option-btn" data-val="B">B. Hifzhu Al-Mal</button>
+                <button class="option-btn" data-val="C">C. Hifzhu Al-Aql</button>
+                <button class="option-btn" data-val="D">D. Hifzhu Al-Nasl</button>
+            </div>
+        </div>
+
+        <div class="question-card"><span class="q-text">14. Menghormati kebebasan beragama orang lain termasuk dalam prinsip...</span>
+            <div class="options" data-correct="C">
+                <button class="option-btn" data-val="A">A. Menjaga Harta</button>
+                <button class="option-btn" data-val="B">B. Menjaga Keturunan</button>
+                <button class="option-btn" data-val="C">C. Hifzhu Al-Din (Menjaga Agama)</button>
+                <button class="option-btn" data-val="D">D. Menjaga Jiwa</button>
+            </div>
+        </div>
+
+        <div class="question-card"><span class="q-text">15. Pernikahan yang sah bertujuan untuk menjalankan prinsip...</span>
+            <div class="options" data-correct="B">
+                <button class="option-btn" data-val="A">A. Hifzhu Al-Mal</button>
+                <button class="option-btn" data-val="B">B. Hifzhu Al-Nasl (Menjaga Keturunan)</button>
+                <button class="option-btn" data-val="C">C. Hifzhu Al-Aql</button>
+                <button class="option-btn" data-val="D">D. Hifzhu Al-Din</button>
+            </div>
+        </div>
+
+        <div class="question-card"><span class="q-text">16. Larangan mencuri dan menipu dalam perdagangan adalah implementasi...</span>
+            <div class="options" data-correct="D">
+                <button class="option-btn" data-val="A">A. Menjaga Jiwa</button>
+                <button class="option-btn" data-val="B">B. Menjaga Agama</button>
+                <button class="option-btn" data-val="C">C. Menjaga Akal</button>
+                <button class="option-btn" data-val="D">D. Hifzhu Al-Mal (Menjaga Harta)</button>
+            </div>
+        </div>
+
+        <div class="question-card"><span class="q-text">17. Sifat jujur sangat berkaitan erat dengan sikap berani yang disebut...</span>
+            <div class="options" data-correct="A">
+                <button class="option-btn" data-val="A">A. Syaja'ah</button>
+                <button class="option-btn" data-val="B">B. Ghadab</button>
+                <button class="option-btn" data-val="C">C. Riya</button>
+                <button class="option-btn" data-val="D">D. Sum'ah</button>
+            </div>
+        </div>
+
+        <div class="question-card"><span class="q-text">18. Yang BUKAN merupakan contoh sifat jujur di sekolah adalah...</span>
+            <div class="options" data-correct="C">
+                <button class="option-btn" data-val="A">A. Mengembalikan pena teman</button>
+                <button class="option-btn" data-val="B">B. Mengerjakan tugas sendiri</button>
+                <button class="option-btn" data-val="C">C. Membocorkan kunci jawaban</button>
+                <button class="option-btn" data-val="D">D. Mengakui belum belajar</button>
+            </div>
+        </div>
+
+        <div class="question-card"><span class="q-text">19. Menjaga nama baik diri sendiri dan keluarga termasuk dalam bagian menjaga...</span>
+            <div class="options" data-correct="D">
+                <button class="option-btn" data-val="A">A. Akal</button>
+                <button class="option-btn" data-val="B">B. Harta</button>
+                <button class="option-btn" data-val="C">C. Agama</button>
+                <button class="option-btn" data-val="D">D. Kehormatan/Keturunan (Al-Nasl)</button>
+            </div>
+        </div>
+
+        <div class="question-card"><span class="q-text">20. Mengonsumsi makanan halal dan bergizi adalah upaya nyata dari...</span>
+            <div class="options" data-correct="A">
+                <button class="option-btn" data-val="A">A. Hifzhu Al-Nafs (Menjaga Jiwa)</button>
+                <button class="option-btn" data-val="B">B. Hifzhu Al-Mal</button>
+                <button class="option-btn" data-val="C">C. Hifzhu Al-Aql</button>
+                <button class="option-btn" data-val="D">D. Hifzhu Al-Din</button>
+            </div>
+        </div>
+
+        <div class="question-card"><span class="q-text">21. Wali Songo yang berkedudukan di Surabaya dan dikenal dengan Raden Rahmat adalah...</span>
+            <div class="options" data-correct="B">
+                <button class="option-btn" data-val="A">A. Sunan Gresik</button>
+                <button class="option-btn" data-val="B">B. Sunan Ampel</button>
+                <button class="option-btn" data-val="C">C. Sunan Giri</button>
+                <button class="option-btn" data-val="D">D. Sunan Kalijaga</button>
+            </div>
+        </div>
+
+        <div class="question-card"><span class="q-text">22. Sunan Bonang dan Sunan Drajat adalah putra dari wali bernama...</span>
+            <div class="options" data-correct="A">
+                <button class="option-btn" data-val="A">A. Sunan Ampel</button>
+                <button class="option-btn" data-val="B">B. Sunan Kudus</button>
+                <button class="option-btn" data-val="C">C. Sunan Muria</button>
+                <button class="option-btn" data-val="D">D. Sunan Gresik</button>
+            </div>
+        </div>
+
+        <div class="question-card"><span class="q-text">23. Raden Said adalah nama asli dari wali yang berdakwah menggunakan Wayang, yaitu...</span>
+            <div class="options" data-correct="C">
+                <button class="option-btn" data-val="A">A. Sunan Gunung Jati</button>
+                <button class="option-btn" data-val="B">B. Sunan Muria</button>
+                <button class="option-btn" data-val="C">C. Sunan Kalijaga</button>
+                <button class="option-btn" data-val="D">D. Sunan Giri</button>
+            </div>
+        </div>
+
+        <div class="question-card"><span class="q-text">24. Sunan Kudus dikenal memiliki strategi dakwah yang toleran, salah satunya dengan...</span>
+            <div class="options" data-correct="D">
+                <button class="option-btn" data-val="A">A. Memaksa masuk Islam</button>
+                <button class="option-btn" data-val="B">B. Membenci budaya lokal</button>
+                <button class="option-btn" data-val="C">C. Berdagang saja</button>
+                <button class="option-btn" data-val="D">D. Melarang menyembelih sapi demi menghormati umat Hindu</button>
+            </div>
+        </div>
+
+        <div class="question-card"><span class="q-text">25. Tembang "Lir-ilir" dan "Gundul-gundul Pacul" adalah sarana dakwah dari...</span>
+            <div class="options" data-correct="B">
+                <button class="option-btn" data-val="A">A. Sunan Gresik</button>
+                <button class="option-btn" data-val="B">B. Sunan Kalijaga</button>
+                <button class="option-btn" data-val="C">C. Sunan Ampel</button>
+                <button class="option-btn" data-val="D">D. Sunan Bonang</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="submit-area">
+        <button id="btn-finish" onclick="checkQuiz()">Selesai & Lihat Skor</button>
+    </div>
+</div>
+
+<div class="overlay" id="overlay" onclick="closeModal()"></div>
+<div id="result-modal">
+    <span class="close-x" onclick="closeModal()">&times;</span>
+    <h2>Hasil Kamu</h2>
+    <h1 id="modal-score" style="font-size: 3.5em; color: var(--primary); margin: 10px 0;">0</h1>
+    <p id="modal-msg" style="font-weight: bold;"></p>
+    <button id="btn-retry" onclick="location.reload()">Ulangi Kuis</button>
+</div>
+
+<script>
+    document.querySelectorAll('.option-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const parent = this.parentElement;
+            parent.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+            this.classList.add('selected');
+        });
+    });
+
+    function checkQuiz() {
+        let score = 0;
+        const questions = document.querySelectorAll('.options');
+        let answered = 0;
+
+        questions.forEach(q => { if(q.querySelector('.selected')) answered++; });
+
+        if (answered < questions.length) {
+            alert(`Mohon isi semua soal! (${answered}/${questions.length})`);
+            return;
+        }
+
+        questions.forEach(q => {
+            const correct = q.getAttribute('data-correct');
+            const selectedBtn = q.querySelector('.selected');
+            const selectedVal = selectedBtn.getAttribute('data-val');
+
+            selectedBtn.classList.remove('selected');
+
+            if (selectedVal === correct) {
+                selectedBtn.classList.add('correct');
+                score++;
+            } else {
+                selectedBtn.classList.add('wrong');
+                q.querySelectorAll('.option-btn').forEach(b => {
+                    if (b.getAttribute('data-val') === correct) b.classList.add('correct');
+                });
+            }
+            q.querySelectorAll('.option-btn').forEach(b => b.classList.add('disabled'));
+        });
+
+        const finalScore = Math.round((score / questions.length) * 100);
+        document.getElementById('modal-score').innerText = finalScore;
+        document.getElementById('modal-msg').innerText = `Benar ${score} dari ${questions.length} soal.`;
+        
+        document.getElementById('overlay').style.display = 'block';
+        document.getElementById('result-modal').style.display = 'block';
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    function closeModal() {
+        document.getElementById('overlay').style.display = 'none';
+        document.getElementById('result-modal').style.display = 'none';
+    }
+</script>
+
+</body>
+</html>
